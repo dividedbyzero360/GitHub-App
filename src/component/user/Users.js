@@ -1,45 +1,57 @@
-import React , {Component} from "react";
+import React  from "react";
 import UserItem from "./UserItem";
+import Spinner from "../layout/Spinner"
+import PropTypes from "prop-types";
 
-export class Users extends Component
+const Users =({users,loading})=>
 {
-    state={
-        users:[
-            {
-                id:"",
-                login:"",
-                avatar_url:"",
-                html_url:""
-            },
-            {
-                id:"",
-                login:"",
-                avatar_url:"",
-                html_url:""
-            }
-        ]
+    console.log(users)
+    if(loading)
+    {
+        return (
+            <Spinner/>
+        );
     }
-
-    componentDidMount(){
-        console.log("componentDidMount-Users");
-    }
-    
-    render(){
-        console.log("render-Users");
+    else{
         return(
             <div style={userStyle}>
-            {this.state.users.map((user)=>(
+            {users.map((user)=>(
                 <UserItem key={user.id} user={user}/>     
             ))}
             </div>
         );
     }
-}
+};
 
 const userStyle={
     display:"grid",
     gridTemplateColumns:"repeat(3,1fr)",
     gridGap:"1rem"
+};
+
+Users.propTypes={
+    users: PropTypes.array.isRequired,
+    loading:PropTypes.bool.isRequired
 }
 
 export default Users;
+
+
+// export class Users extends Component
+// {
+    
+//     componentDidMount(){
+//         console.log("componentDidMount-Users");
+//     }
+    
+//     render(){
+//         console.log("render-Users");
+//         return(
+//             <div style={userStyle}>
+//             {this.props.users.map((user)=>(
+//                 <UserItem key={user.id} user={user}/>     
+//             ))}
+//             </div>
+//         );
+//     }
+// }
