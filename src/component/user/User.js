@@ -23,6 +23,7 @@ const User = (props) => {
     return (
       <Fragment>
         {/* <a href="/" className='btn btn-light'>Back To Search</a> */}
+       {/* {(<a href="/" className='btn btn-light'>Back To Search</a> )}  */}
         <Link to='/' className='btn btn-light'>
           Back To Search
                   </Link>

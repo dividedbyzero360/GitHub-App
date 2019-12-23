@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const Users =({users,loading})=>
 {
-    console.log(users)
+    console.log("DX "+users)
     if(loading)
     {
         return (
