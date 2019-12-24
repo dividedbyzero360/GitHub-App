@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 const About = () => {
-    console.log("About");
     return (
         <Fragment>
             <h1>
