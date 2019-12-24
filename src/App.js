@@ -4,6 +4,7 @@ import Home from "./component/pages/Home";
 import User from "./component/user/User";
 import Alert from "./component/user/Alert";
 import About from "./component/pages/About";
+import NotFound from './component/pages/NotFound';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
@@ -27,6 +28,7 @@ const App = () => {
             <User {...props} />
             )}/> */}
                 <Route exact path="/user/:login" component={User} />
+                <Route component={NotFound} />
               </Switch>
             </div>
           </div>
