@@ -1,7 +1,7 @@
-import React,{Fragment} from "react";
-const About=()=>{
+import React, { Fragment } from "react";
+const About = () => {
     console.log("About");
-    return(
+    return (
         <Fragment>
             <h1>
                 About this App

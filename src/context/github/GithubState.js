@@ -1,16 +1,14 @@
-import React, {useReducer} from 'react';
+import React, { useReducer } from 'react';
 import Axios from 'axios';
 import GithubContext from './githubContext';
 import GithubReducer from './githubReducer';
 
-import { 
+import {
     SEARCH_USERS,
     GET_USER,
     CLEAR_USERS,
     GET_REPOS,
     SET_LOADING,
-    SET_ALERT,
-    REMOVE_ALERT
 } from '../types'
 
 const GithubState = props => {
@@ -19,40 +17,65 @@ const GithubState = props => {
         user: {},
         repos: [],
         loading: false
-    } 
+    }
 
-    const [state, dispatch] = useReducer(GithubReducer,initialState);
+    const [state, dispatch] = useReducer(GithubReducer, initialState);
 
     // Search Users
-    const searchUsers= async text=> {
+    const searchUsers = async text => {
         setLoading();
-        const res= await Axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}`+
-        `&client_secret=${process.env.REACT_APP_GITHUB_SECRET}`);
-        console.log(res.data.items);
-        console.log(state.users)
+        const res = await Axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}` +
+            `&client_secret=${process.env.REACT_APP_GITHUB_SECRET}`);
         dispatch({
             type: SEARCH_USERS,
             payLoad: res.data.items
         });
-        console.log(state.users)
-      }
+    }
     // Get User
-    // Get Repos
-    // Clear Users
-    // Set Loading
-    const setLoading = () => dispatch({type: SET_ALERT});
+    const getUser = async username => {
+        setLoading();
+        const res = await Axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}` +
+            `&client_secret=${process.env.REACT_APP_GITHUB_SECRET}`);
+        dispatch({
+            type: GET_USER,
+            payLoad: res.data
 
-    return <GithubContext.Provider  
+        })
+    }
+    // Get Repos
+    const getUserRepos = async username => {
+        setLoading();
+        const res = await Axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}` +
+            `&client_secret=${process.env.REACT_APP_GITHUB_SECRET}`);
+        dispatch({
+            type: GET_REPOS,
+            payLoad: res.data
+
+        })
+    }
+    // Clear Users
+    const clearUsers = () => dispatch({ type: CLEAR_USERS });
+
+
+
+
+    // Set Loading
+    const setLoading = () => dispatch({ type: SET_LOADING });
+
+    return <GithubContext.Provider
         value={{
             users: state.users,
             user: state.user,
             repos: state.repos,
             loading: state.loading,
-            searchUsers
+            searchUsers,
+            clearUsers,
+            getUser,
+            getUserRepos
         }}
     >
         {props.children}
-         </GithubContext.Provider>
+    </GithubContext.Provider>
 }
 
 export default GithubState;
